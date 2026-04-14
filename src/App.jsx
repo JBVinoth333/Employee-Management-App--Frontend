@@ -5,7 +5,7 @@ import DashBoard from './pages/DashBoard/DashBoard';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Employee-Management-App--Frontend">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
