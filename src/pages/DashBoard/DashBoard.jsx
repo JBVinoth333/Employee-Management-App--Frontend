@@ -245,50 +245,41 @@ function DashBoard() {
   }
 
   useEffect(() => {
-    fetch(API + '/session', { credentials: 'include' })
+    fetch(API + '/departments', { credentials: 'include' })
       .then((res) => res.json())
-      .then((data) => {
-        if (!data.authenticated) {
-          navigate('/login');
-        } else {
-          fetch(API + '/departments', { credentials: 'include' })
-            .then((res) => res.json())
-            .then((departmentsData) => setDepartments(departmentsData))
-            .catch(() => {});
+      .then((departmentsData) => setDepartments(departmentsData))
+      .catch(() => {});
 
-          setEmployeeLoading(true);
-          setEmployeeError('');
-          fetch(API + '/employees', { credentials: 'include' })
-            .then((res) => {
-              if (!res.ok) {
-                throw new Error('Failed to load employees');
-              }
-              return res.json();
-            })
-            .then((employeesData) => {
-              setEmployees(employeesData);
-              setVisibleEmployees(employeesData);
-            })
-            .catch(() => {
-              setEmployees([]);
-              setVisibleEmployees([]);
-              setEmployeeError('Failed to load employee list');
-            })
-            .finally(() => setEmployeeLoading(false));
-
-          fetch(API + '/jobs', { credentials: 'include' })
-            .then((res) => res.json())
-            .then((jobsData) => setJobs(jobsData))
-            .catch(() => {});
-
-          fetch(API + '/deptManager', { credentials: 'include' })
-            .then((res) => res.json())
-            .then((managerData) => setDeptManagers(managerData))
-            .catch(() => {});
+    setEmployeeLoading(true);
+    setEmployeeError('');
+    fetch(API + '/employees', { credentials: 'include' })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to load employees');
         }
+        return res.json();
       })
-      .catch(() => navigate('/login'));
-  }, [navigate]);
+      .then((employeesData) => {
+        setEmployees(employeesData);
+        setVisibleEmployees(employeesData);
+      })
+      .catch(() => {
+        setEmployees([]);
+        setVisibleEmployees([]);
+        setEmployeeError('Failed to load employee list');
+      })
+      .finally(() => setEmployeeLoading(false));
+
+    fetch(API + '/jobs', { credentials: 'include' })
+      .then((res) => res.json())
+      .then((jobsData) => setJobs(jobsData))
+      .catch(() => {});
+
+    fetch(API + '/deptManager', { credentials: 'include' })
+      .then((res) => res.json())
+      .then((managerData) => setDeptManagers(managerData))
+      .catch(() => {});
+  }, []);
 
   const activeEmployees = employees.filter((employee) => employee.status === 'Active').length;
   const inactiveEmployees = employees.filter((employee) => employee.status !== 'Active').length;
