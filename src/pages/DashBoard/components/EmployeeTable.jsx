@@ -9,7 +9,11 @@ function EmployeeTable({ employees, departments, jobs, onView, onEdit, onDelete 
     return j ? j.jobTitle : id;
   }
 
-  if (employees.length === 0) return <p>No employees yet.</p>;
+  function getStatusClass(status) {
+    return status === 'Active' ? 'status-badge active' : 'status-badge inactive';
+  }
+
+  if (employees.length === 0) return <p>No employees found.</p>;
 
   return (
     <div className="table-wrapper">
@@ -35,7 +39,7 @@ function EmployeeTable({ employees, departments, jobs, onView, onEdit, onDelete 
               <td>{emp.phone}</td>
               <td>{getDeptName(emp.departmentId)}</td>
               <td>{getJobTitle(emp.jobId)}</td>
-              <td>{emp.status}</td>
+              <td><span className={getStatusClass(emp.status)}>{emp.status || 'Unknown'}</span></td>
               <td className="action-cell">
                 <button className="view-btn" onClick={() => onView(emp.employeeId)}>View</button>
                 <button className="edit-btn" onClick={() => onEdit(emp)}>Edit</button>

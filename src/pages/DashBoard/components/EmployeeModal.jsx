@@ -9,6 +9,10 @@ function EmployeeModal({ employee, departments, jobs, onClose, onEdit, onDelete 
     return j ? j.jobTitle : id;
   }
 
+  function getStatusClass(status) {
+    return status === 'Active' ? 'status-badge active' : 'status-badge inactive';
+  }
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -29,7 +33,7 @@ function EmployeeModal({ employee, departments, jobs, onClose, onEdit, onDelete 
             <div className="detail-item"><span className="detail-label">Job</span><span>{getJobTitle(employee.jobId)}</span></div>
             <div className="detail-item"><span className="detail-label">Salary</span><span>{employee.salary}</span></div>
             <div className="detail-item"><span className="detail-label">PAN</span><span>{employee.pan}</span></div>
-            <div className="detail-item"><span className="detail-label">Status</span><span>{employee.status}</span></div>
+            <div className="detail-item"><span className="detail-label">Status</span><span><span className={getStatusClass(employee.status)}>{employee.status || 'Unknown'}</span></span></div>
           </div>
         </div>
         <div className="modal-footer">

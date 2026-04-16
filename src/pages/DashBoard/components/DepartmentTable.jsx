@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function DepartmentTable({ departments, employees, deptManagers, onEdit, onAssignManager, onRemoveManager }) {
-  const [selectedManagerId, setSelectedManagerId] = useState('');
+  const [selectedManagers, setSelectedManagers] = useState({});
 
   function getEmpName(id) {
     const emp = employees.find((e) => e.employeeId === id);
@@ -14,9 +14,10 @@ function DepartmentTable({ departments, employees, deptManagers, onEdit, onAssig
   }
 
   function handleAssign(deptId) {
+    const selectedManagerId = selectedManagers[deptId];
     if (!selectedManagerId) return;
     onAssignManager(deptId, Number(selectedManagerId));
-    setSelectedManagerId('');
+    setSelectedManagers((prev) => ({ ...prev, [deptId]: '' }));
   }
 
   if (departments.length === 0) return <p>No departments yet.</p>;
@@ -52,7 +53,10 @@ function DepartmentTable({ departments, employees, deptManagers, onEdit, onAssig
                     </span>
                   ) : (
                     <span className="assign-mgr">
-                      <select value={selectedManagerId} onChange={(e) => setSelectedManagerId(e.target.value)}>
+                      <select
+                        value={selectedManagers[d.departmentId] || ''}
+                        onChange={(e) => setSelectedManagers((prev) => ({ ...prev, [d.departmentId]: e.target.value }))}
+                      >
                         <option value="">Select</option>
                         {employees
                           .filter((emp) => !deptManagers.some((dm) => dm.managerId === emp.employeeId))
@@ -62,7 +66,7 @@ function DepartmentTable({ departments, employees, deptManagers, onEdit, onAssig
                             </option>
                           ))}
                       </select>
-                      <button className="assign-btn" onClick={() => handleAssign(d.departmentId)} disabled={!selectedManagerId}>Assign</button>
+                      <button className="assign-btn" onClick={() => handleAssign(d.departmentId)} disabled={!selectedManagers[d.departmentId]}>Assign</button>
                     </span>
                   )}
                 </td>

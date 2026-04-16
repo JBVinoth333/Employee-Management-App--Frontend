@@ -17,6 +17,7 @@ function EditEmployeeModal({ employee, departments, jobs, onClose, onSave }) {
       phone: form.phone,
       gender: form.gender,
       address: form.address,
+      status: form.status,
       departmentId: Number(form.departmentId),
       jobId: Number(form.jobId),
       salary: Number(form.salary),
@@ -61,6 +62,13 @@ function EditEmployeeModal({ employee, departments, jobs, onClose, onSave }) {
               <div>
                 <label>Address</label>
                 <input value={form.address || ''} onChange={(e) => update('address', e.target.value)} />
+              </div>
+              <div>
+                <label>Status</label>
+                <select value={form.status || 'Active'} onChange={(e) => update('status', e.target.value)}>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
               </div>
               <div>
                 <label>Department</label>
