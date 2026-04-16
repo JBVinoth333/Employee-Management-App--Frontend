@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../config';
+import ThemeToggle from '../../components/ThemeToggle';
 import AddDepartmentForm from './components/AddDepartmentForm';
 import AddEmployeeForm from './components/AddEmployeeForm';
 import DepartmentTable from './components/DepartmentTable';
@@ -286,11 +287,13 @@ function DashBoard() {
   const sortedVisibleEmployees = getSortedEmployees();
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <h1>Admin Dashboard</h1>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
-      </div>
+    <>
+      <ThemeToggle />
+      <div className="dashboard">
+        <div className="dashboard-header">
+          <h1>Admin Dashboard</h1>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
 
       <div className="tab-bar">
         <button className={tab === 'departments' ? 'tab active' : 'tab'} onClick={() => setTab('departments')}>
@@ -456,7 +459,8 @@ function DashBoard() {
           onSave={updateDepartment}
         />
       )}
-    </div>
+      </div>
+    </>
   );
 }
 

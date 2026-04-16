@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputField from '../../components/InputField';
+import ThemeToggle from '../../components/ThemeToggle';
 import { BASE_URL } from '../../config';
 import '../Signup/Signup.css';
 
@@ -40,27 +41,30 @@ export default function Login() {
     }
 
     return (
-        <div className="page">
-            <form className="card" onSubmit={handleLogin}>
-                <h1>Login</h1>
-                <p className="subtitle">Welcome back</p>
+        <>
+            <ThemeToggle />
+            <div className="page">
+                <form className="card" onSubmit={handleLogin}>
+                    <h1>Login</h1>
+                    <p className="subtitle">Welcome back</p>
 
-                {message && <p className="error-msg">{message}</p>}
+                    {message && <p className="error-msg">{message}</p>}
 
-                <InputField label="Username" value={username} onChange={setUsername} />
-                <InputField label="Password" type={showPassword ? 'text' : 'password'} value={password} onChange={setPassword} />
-                <label className="checkbox-row">
-                    <input type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} />
-                    Show Password
-                </label>
+                    <InputField label="Username" value={username} onChange={setUsername} />
+                    <InputField label="Password" type={showPassword ? 'text' : 'password'} value={password} onChange={setPassword} />
+                    <label className="checkbox-row">
+                        <input type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} />
+                        Show Password
+                    </label>
 
-                <button type="submit">Login</button>
+                    <button type="submit">Login</button>
 
-                <p className="toggle">
-                    Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
-                </p>
-            </form>
-        </div>
+                    <p className="toggle">
+                        Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
+                    </p>
+                </form>
+            </div>
+        </>
     );
 }
 
