@@ -22,6 +22,7 @@ function DashBoard() {
   const [deptManagers, setDeptManagers] = useState([]);
   const [jobs, setJobs] = useState([]);
 
+  
   const [employeeSearch, setEmployeeSearch] = useState('');
   const [employeeStatus, setEmployeeStatus] = useState('all');
   const [employeeDepartment, setEmployeeDepartment] = useState('all');
