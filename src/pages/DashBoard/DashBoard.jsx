@@ -44,7 +44,7 @@ function DashBoard() {
   const [showAddDept, setShowAddDept] = useState(false);
   const [showAddEmp, setShowAddEmp] = useState(false);
 
-  function loadEmployeeList(searchValue = employeeSearch, statusValue = employeeStatus, departmentValue = employeeDepartment) {
+  function loadEmployeeList(searchValue = employeeSearch, statusValue = employeeStatus, departmentValue = employeeDepartment, sortByValue = employeeSortBy, sortOrderValue = employeeSortOrder) {
     const params = new URLSearchParams();
 
     if (searchValue.trim()) {
@@ -56,6 +56,8 @@ function DashBoard() {
     if (departmentValue !== 'all') {
       params.set('departmentId', departmentValue);
     }
+    params.set('sortBy', sortByValue);
+    params.set('sortOrder', sortOrderValue);
 
     const query = params.toString();
     setEmployeeLoading(true);
@@ -212,38 +214,6 @@ function DashBoard() {
       .catch(() => {});
   }
 
-  function getSortedEmployees() {
-    const sortedEmployees = [...visibleEmployees];
-
-    sortedEmployees.sort((employeeA, employeeB) => {
-      let valueA;
-      let valueB;
-
-      if (employeeSortBy === 'name') {
-        valueA = `${employeeA.firstName || ''} ${employeeA.lastName || ''}`.trim().toLowerCase();
-        valueB = `${employeeB.firstName || ''} ${employeeB.lastName || ''}`.trim().toLowerCase();
-      } else if (employeeSortBy === 'salary') {
-        valueA = Number(employeeA.salary) || 0;
-        valueB = Number(employeeB.salary) || 0;
-      } else {
-        const timestampA = Date.parse(employeeA.hireDate);
-        const timestampB = Date.parse(employeeB.hireDate);
-        valueA = Number.isNaN(timestampA) ? 0 : timestampA;
-        valueB = Number.isNaN(timestampB) ? 0 : timestampB;
-      }
-
-      if (valueA < valueB) {
-        return employeeSortOrder === 'asc' ? -1 : 1;
-      }
-      if (valueA > valueB) {
-        return employeeSortOrder === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
-
-    return sortedEmployees;
-  }
-
   useEffect(() => {
     fetch(API + '/departments', { credentials: 'include' })
       .then((res) => res.json())
@@ -283,7 +253,6 @@ function DashBoard() {
 
   const activeEmployees = employees.filter((employee) => employee.status === 'Active').length;
   const inactiveEmployees = employees.filter((employee) => employee.status !== 'Active').length;
-  const sortedVisibleEmployees = getSortedEmployees();
 
   return (
     <>
@@ -382,7 +351,11 @@ function DashBoard() {
             </select>
             <select
               value={employeeSortBy}
-              onChange={(e) => setEmployeeSortBy(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                setEmployeeSortBy(value);
+                loadEmployeeList(employeeSearch, employeeStatus, employeeDepartment, value, employeeSortOrder);
+              }}
             >
               <option value="name">Sort by Name</option>
               <option value="salary">Sort by Salary</option>
@@ -390,7 +363,11 @@ function DashBoard() {
             </select>
             <select
               value={employeeSortOrder}
-              onChange={(e) => setEmployeeSortOrder(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                setEmployeeSortOrder(value);
+                loadEmployeeList(employeeSearch, employeeStatus, employeeDepartment, employeeSortBy, value);
+              }}
             >
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
@@ -404,7 +381,7 @@ function DashBoard() {
                 setEmployeeDepartment('all');
                 setEmployeeSortBy('name');
                 setEmployeeSortOrder('asc');
-                loadEmployeeList('', 'all', 'all');
+                loadEmployeeList('', 'all', 'all', 'name', 'asc');
               }}
             >
               Clear
@@ -415,7 +392,7 @@ function DashBoard() {
           {employeeError && <p className="table-message error">{employeeError}</p>}
           {employeeLoading && <p className="table-message">Loading employees...</p>}
           <EmployeeTable
-            employees={sortedVisibleEmployees}
+            employees={visibleEmployees}
             departments={departments}
             jobs={jobs}
             onView={viewEmployee}
