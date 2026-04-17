@@ -34,6 +34,13 @@
   color: #ef4444;
 }
 
+.logout-btn-bottom {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 20;
+}
+
 .tab-bar {
   display: flex;
   gap: 0.5rem;

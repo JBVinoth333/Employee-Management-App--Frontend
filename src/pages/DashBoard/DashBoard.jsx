@@ -291,7 +291,6 @@ function DashBoard() {
       <div className="dashboard">
         <div className="dashboard-header">
           <h1>Admin Dashboard</h1>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
 
       <div className="tab-bar">
@@ -454,6 +453,8 @@ function DashBoard() {
           onSave={updateDepartment}
         />
       )}
+
+      <button className="logout-btn logout-btn-bottom" onClick={handleLogout}>Logout</button>
       </div>
     </>
   );
