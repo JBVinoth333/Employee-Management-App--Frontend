@@ -9,6 +9,7 @@ import EmployeeTable from './components/EmployeeTable';
 import EmployeeModal from './components/EmployeeModal';
 import EditEmployeeModal from './components/EditEmployeeModal';
 import EditDepartmentModal from './components/EditDepartmentModal';
+import EmployeeFilters from './components/EmployeeFilters';
 import './DashBoard.css';
 
 const API = `${BASE_URL}/api`;
@@ -311,82 +312,22 @@ function DashBoard() {
           </button>
           {showAddEmp && <AddEmployeeForm departments={departments} jobs={jobs} onAdd={addEmployee} />}
 
-          <div className="employee-filters">
-            <input
-              type="search"
-              value={employeeSearch}
-              onChange={(e) => {
-                const value = e.target.value;
-                setEmployeeSearch(value);
-                loadEmployeeList(value, employeeStatus, employeeDepartment);
-              }}
-              placeholder="Search by name, email, phone or ID"
-            />
-            <select
-              value={employeeStatus}
-              onChange={(e) => {
-                const value = e.target.value;
-                setEmployeeStatus(value);
-                loadEmployeeList(employeeSearch, value, employeeDepartment);
-              }}
-            >
-              <option value="all">All Status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-            <select
-              value={employeeDepartment}
-              onChange={(e) => {
-                const value = e.target.value;
-                setEmployeeDepartment(value);
-                loadEmployeeList(employeeSearch, employeeStatus, value);
-              }}
-            >
-              <option value="all">All Departments</option>
-              {departments.map((department) => (
-                <option key={department.departmentId} value={department.departmentId}>
-                  {department.departmentName}
-                </option>
-              ))}
-            </select>
-            <select
-              value={employeeSortBy}
-              onChange={(e) => {
-                const value = e.target.value;
-                setEmployeeSortBy(value);
-                loadEmployeeList(employeeSearch, employeeStatus, employeeDepartment, value, employeeSortOrder);
-              }}
-            >
-              <option value="name">Sort by Name</option>
-              <option value="salary">Sort by Salary</option>
-              <option value="hireDate">Sort by Hire Date</option>
-            </select>
-            <select
-              value={employeeSortOrder}
-              onChange={(e) => {
-                const value = e.target.value;
-                setEmployeeSortOrder(value);
-                loadEmployeeList(employeeSearch, employeeStatus, employeeDepartment, employeeSortBy, value);
-              }}
-            >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
-            <button
-              className="clear-filter-btn"
-              type="button"
-              onClick={() => {
-                setEmployeeSearch('');
-                setEmployeeStatus('all');
-                setEmployeeDepartment('all');
-                setEmployeeSortBy('name');
-                setEmployeeSortOrder('asc');
-                loadEmployeeList('', 'all', 'all', 'name', 'asc');
-              }}
-            >
-              Clear
-            </button>
-          </div>
+          <EmployeeFilters
+            search={employeeSearch}
+            status={employeeStatus}
+            department={employeeDepartment}
+            sortBy={employeeSortBy}
+            sortOrder={employeeSortOrder}
+            departments={departments}
+            onChange={({ search, status, department, sortBy, sortOrder }) => {
+              setEmployeeSearch(search);
+              setEmployeeStatus(status);
+              setEmployeeDepartment(department);
+              setEmployeeSortBy(sortBy);
+              setEmployeeSortOrder(sortOrder);
+              loadEmployeeList(search, status, department, sortBy, sortOrder);
+            }}
+          />
 
           <h3>Employee List</h3>
           {employeeError && <p className="table-message error">{employeeError}</p>}
