@@ -41,7 +41,6 @@ function Signup() {
 
       if (data.status === "success") {
         console.log("Signup successful:", data.username);
-        alert('Account created! Please login.');
         navigate('/login');
       } else {
         console.error("Signup failed:", data.message);

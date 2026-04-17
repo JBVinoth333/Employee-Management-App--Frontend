@@ -113,7 +113,7 @@ function DashBoard() {
         setSelectedEmp(data);
         setShowModal(true);
       })
-      .catch(() => alert('Failed to load employee details'));
+      .catch(() => {});
   }
 
   function deleteEmployee(id) {
@@ -124,7 +124,7 @@ function DashBoard() {
         loadData();
         if (showModal) setShowModal(false);
       })
-      .catch(() => alert('Failed to delete employee'));
+      .catch(() => {});
   }
 
   function addDepartment(data) {
@@ -136,7 +136,7 @@ function DashBoard() {
     })
       .then((res) => res.json())
       .then(() => loadData())
-      .catch(() => alert('Failed to add department'));
+      .catch(() => {});
   }
 
   function assignManager(deptId, managerId) {
@@ -148,7 +148,7 @@ function DashBoard() {
     })
       .then((res) => res.json())
       .then(() => loadData())
-      .catch(() => alert('Failed to assign manager'));
+      .catch(() => {});
   }
 
   function removeManager(deptId) {
@@ -156,7 +156,7 @@ function DashBoard() {
     fetch(API + '/deptManager?departmentId=' + deptId, { method: 'DELETE', credentials: 'include' })
       .then((res) => res.json())
       .then(() => loadData())
-      .catch(() => alert('Failed to remove manager'));
+      .catch(() => {});
   }
 
   function openEditEmployee(emp) {
@@ -178,7 +178,7 @@ function DashBoard() {
         setShowModal(false);
         loadData();
       })
-      .catch(() => alert('Failed to update employee'));
+      .catch(() => {});
   }
 
   function updateDepartment(data) {
@@ -194,7 +194,7 @@ function DashBoard() {
         setEditingDept(null);
         loadData();
       })
-      .catch(() => alert('Failed to update department'));
+      .catch(() => {});
   }
 
   function addEmployee(data) {
@@ -208,9 +208,8 @@ function DashBoard() {
       .then(() => {
         loadData();
         setShowAddEmp(false);
-        alert('Employee added!');
       })
-      .catch(() => alert('Failed to add employee'));
+      .catch(() => {});
   }
 
   function getSortedEmployees() {
@@ -336,10 +335,6 @@ function DashBoard() {
             <div className="summary-card">
               <span className="summary-label">Inactive</span>
               <strong>{inactiveEmployees}</strong>
-            </div>
-            <div className="summary-card">
-              <span className="summary-label">Visible Results</span>
-              <strong>{visibleEmployees.length}</strong>
             </div>
           </div>
 
