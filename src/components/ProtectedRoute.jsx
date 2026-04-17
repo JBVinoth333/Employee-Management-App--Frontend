@@ -6,7 +6,6 @@ export default function ProtectedRoute({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    // Check if user has valid session via cookie
     fetch(`${BASE_URL}/api/validateSession`, {
       method: 'GET',
       credentials: 'include',
@@ -24,16 +23,13 @@ export default function ProtectedRoute({ children }) {
       });
   }, []);
 
-  // Loading state
   if (isAuthenticated === null) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
   }
 
-  // Not authenticated - redirect to login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Authenticated - show dashboard
   return children;
 }

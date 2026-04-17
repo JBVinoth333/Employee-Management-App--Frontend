@@ -45,7 +45,7 @@ function Signup() {
         navigate('/login');
       } else {
         console.error("Signup failed:", data.message);
-        setMessage(data.message);
+              setMessage('Something went wrong. Try again.');
       }
     } catch (error) {
       console.error("Network error:", error);
