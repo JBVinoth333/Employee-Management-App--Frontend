@@ -10,7 +10,13 @@ function EmployeeModal({ employee, departments, jobs, onClose, onEdit, onDelete 
   }
 
   function getStatusClass(status) {
-    return status === 'Active' ? 'status-badge active' : 'status-badge inactive';
+    if (status === 'Active') {
+      return 'status-badge active';
+    }
+    if (status === 'Terminated') {
+      return 'status-badge terminated';
+    }
+    return 'status-badge inactive';
   }
 
   return (

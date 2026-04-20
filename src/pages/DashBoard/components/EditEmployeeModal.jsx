@@ -68,6 +68,7 @@ function EditEmployeeModal({ employee, departments, jobs, onClose, onSave }) {
                 <select value={form.status || 'Active'} onChange={(e) => update('status', e.target.value)}>
                   <option value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
+                  <option value="Terminated">Terminated</option>
                 </select>
               </div>
               <div>

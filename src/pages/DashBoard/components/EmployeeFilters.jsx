@@ -15,6 +15,7 @@ function EmployeeFilters({ search, status, department, sortBy, sortOrder, depart
         <option value="all">All Status</option>
         <option value="Active">Active</option>
         <option value="Inactive">Inactive</option>
+        <option value="Terminated">Terminated</option>
       </select>
       <select value={department} onChange={(e) => handle({ department: e.target.value })}>
         <option value="all">All Departments</option>

@@ -440,6 +440,11 @@
   color: #b91c1c;
 }
 
+.status-badge.terminated {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
 .view-btn {
   padding: 0.3rem 0.7rem;
   border: 1px solid var(--accent);

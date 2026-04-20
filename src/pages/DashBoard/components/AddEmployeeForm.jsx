@@ -78,7 +78,12 @@ function AddEmployeeForm({ departments, jobs, onAdd }) {
           <select value={jobId} onChange={(e) => setJobId(e.target.value)} required>
             <option value="">Select Job</option>
             {jobs.map((j) => (
-              <option key={j.jobId} value={j.jobId}>{j.jobTitle}</option>
+              <option key={j.jobId} value={j.jobId}>
+                {j.jobTitle}
+                {Number.isFinite(j.minSalary) && Number.isFinite(j.maxSalary)
+                  ? ` (${j.minSalary} - ${j.maxSalary})`
+                  : ''}
+              </option>
             ))}
           </select>
         </div>

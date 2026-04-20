@@ -253,7 +253,8 @@ function DashBoard() {
   }, []);
 
   const activeEmployees = employees.filter((employee) => employee.status === 'Active').length;
-  const inactiveEmployees = employees.filter((employee) => employee.status !== 'Active').length;
+  const inactiveEmployees = employees.filter((employee) => employee.status === 'Inactive').length;
+  const terminatedEmployees = employees.filter((employee) => employee.status === 'Terminated').length;
 
   return (
     <>
@@ -304,6 +305,10 @@ function DashBoard() {
             <div className="summary-card">
               <span className="summary-label">Inactive</span>
               <strong>{inactiveEmployees}</strong>
+            </div>
+            <div className="summary-card">
+              <span className="summary-label">Terminated</span>
+              <strong>{terminatedEmployees}</strong>
             </div>
           </div>
 
